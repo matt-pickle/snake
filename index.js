@@ -1,11 +1,12 @@
 const grid = document.querySelector(".grid");
 const startButton = document.querySelector("#start");
-const score = document.querySelector("#score");
+const scoreDisplay = document.querySelector("#score");
 let squares = [];
 const width = 10;
 let currentSnake = [2,1,0];
 let direction = 1;
 let appleIndex = 0;
+let score = 0;
 
 function createGrid() {
   for (i = 0; i < (width * width); i++) {
@@ -41,11 +42,16 @@ function move() {
 
   //Handles snake eating the apple
   if (currentSnake[0] === appleIndex) {
-    squares[appleIndex].classList.remove("apple"); //Removes apple
-    squares[tail].classList.add("snake"); //Grows the snake
-    currentSnake.push(tail); //Grows the currentSnake array
+    //Removes apple
+    squares[appleIndex].classList.remove("apple");
+    //Grows the snake
+    squares[tail].classList.add("snake");
+    currentSnake.push(tail);
+    //Generates a new apple
     generateApple();
-    
+    //Increments the score
+    score++
+    scoreDisplay.textContent = score;
   }
 }
 
