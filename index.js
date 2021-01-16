@@ -2,12 +2,12 @@ const grid = document.querySelector(".grid");
 const startButton = document.querySelector("#start");
 const score = document.querySelector("#score");
 let squares = [];
-let width = 10;
+const width = 10;
 let currentSnake = [2,1,0];
 let direction = 1;
 
 function createGrid() {
-  for (i = 0; i < 100; i++) {
+  for (i = 0; i < (width * width); i++) {
     const square = document.createElement("div");
     square.classList.add("square");
     grid.appendChild(square);
@@ -20,17 +20,19 @@ createGrid();
 currentSnake.forEach(index => squares[index].classList.add("snake"));
 
 function move() {
+  //Checks for collision first
   let head = currentSnake[0];
   if (
-    (head % 10 === 0 && direction === -1) || //Snake hits left wall
-    (head % 10 === width - 1 && direction === 1) || //Snake hits right wall
+    (head % width === 0 && direction === -1) || //Snake hits left wall
+    (head % width === width - 1 && direction === 1) || //Snake hits right wall
     (head - width < 0 && direction === -width) || //Snake hits bottom wall
     (head + width >= 100 && direction === width) || //Snake hits top wall
     squares[head + direction].classList.contains("snake") //Snake hits itself
   ) {
     return clearInterval(timerId);
   }
-
+  
+  //Moves the snake
   const tail = currentSnake.pop();
   squares[tail].classList.remove("snake");
   currentSnake.unshift(currentSnake[0] + direction);
