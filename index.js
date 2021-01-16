@@ -38,6 +38,15 @@ function move() {
   squares[tail].classList.remove("snake");
   currentSnake.unshift(currentSnake[0] + direction);
   squares[currentSnake[0]].classList.add("snake");
+
+  //Handles snake eating the apple
+  if (currentSnake[0] === appleIndex) {
+    squares[appleIndex].classList.remove("apple"); //Removes apple
+    squares[tail].classList.add("snake"); //Grows the snake
+    currentSnake.push(tail); //Grows the currentSnake array
+    generateApple();
+    
+  }
 }
 
 move();
