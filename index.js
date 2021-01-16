@@ -5,6 +5,7 @@ let squares = [];
 const width = 10;
 let currentSnake = [2,1,0];
 let direction = 1;
+let appleIndex = 0;
 
 function createGrid() {
   for (i = 0; i < (width * width); i++) {
@@ -42,6 +43,15 @@ function move() {
 move();
 
 let timerId = setInterval(move, 1000);
+
+function generateApple() {
+  do {
+    appleIndex = Math.floor(Math.random() * squares.length);
+  } while (squares[appleIndex].classList.contains("snake"));
+  squares[appleIndex].classList.add("apple");
+}
+
+generateApple();
 
 function control(e) {
   if (e.keyCode === 39) { //Right key press
