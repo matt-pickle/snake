@@ -2,6 +2,7 @@ const grid = document.querySelector(".grid");
 const startButton = document.querySelector("#start");
 const scoreDisplay = document.querySelector("#score");
 let squares = [];
+let timerId = 0;
 const width = 10;
 let currentSnake = [2,1,0];
 let direction = 1;
@@ -22,6 +23,24 @@ function createGrid() {
 createGrid();
 
 currentSnake.forEach(index => squares[index].classList.add("snake"));
+
+function startGame() {
+  //Removes the snake
+  currentSnake.forEach(index => squares[index].classList.remove("snake"));
+  //Removes the apple
+  squares[appleIndex].classList.remove("apple");
+  //Resets the game
+  clearInterval(timerId);
+  currentSnake = [2,1,0];
+  direction = 1;
+  score = 0;
+  scoreDisplay.textContent = score;
+  moveInterval = 1000;
+  //Starts new game
+  currentSnake.forEach(index => squares[index].classList.add("snake"));
+  generateApple();
+  timerId = setInterval(move, moveInterval);
+}
 
 function move() {
   //Checks for collision first
@@ -61,10 +80,6 @@ function move() {
   }
 }
 
-move();
-
-let timerId = setInterval(move, moveInterval);
-
 function generateApple() {
   do {
     appleIndex = Math.floor(Math.random() * squares.length);
@@ -87,3 +102,4 @@ function control(e) {
 }
 
 document.addEventListener("keydown", control);
+startButton.addEventListener("click", startGame);
